@@ -1,0 +1,131 @@
+<x-app-layout>
+<style>
+    .form-container { padding: 30px; background: #f8f9fa; min-height: 100vh; font-family: 'Inter', sans-serif; }
+    
+    .card-form {
+        max-width: 600px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        border: 1px solid #edf2f7;
+    }
+
+    .card-form h2 { 
+        margin-top: 0; 
+        margin-bottom: 25px; 
+        color: #0f172a; 
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 20px;
+    }
+
+    .form-group { margin-bottom: 20px; }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #475569;
+        font-size: 14px;
+    }
+
+    /* INPUT STYLING */
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: 14px;
+        color: #1e293b;
+        transition: all 0.3s;
+        background-color: #fcfcfc;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #2563eb;
+        background-color: white;
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+    }
+
+    /* BUTTON STYLING */
+    .btn-submit {
+        width: 100%;
+        background: #2563eb;
+        color: white;
+        border: none;
+        padding: 14px;
+        border-radius: 10px;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-submit:hover {
+        background: #1d4ed8;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    }
+
+    .btn-cancel {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        color: #64748b;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+    }
+</style>
+
+<div class="form-container">
+    <div class="card-form">
+        <h2>
+            <span style="background: #eff6ff; padding: 10px; border-radius: 10px;">💰</span>
+            Input Pembayaran Gaji
+        </h2>
+
+        <form method="POST" action="{{ route('gaji.store') }}">
+            @csrf
+
+            <div class="form-group">
+                <label>Lokasi Penugasan</label>
+                <select name="lokasi" class="form-control">
+                    <option value="" disabled selected>Pilih Lokasi</option>
+                    <option value="Jogja">Jogja</option>
+                    <option value="Gresik">Gresik</option>
+                    <option value="Belitung">Belitung</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Nama Karyawan</label>
+                <input type="text" name="nama_karyawan" class="form-control" placeholder="Masukkan nama lengkap">
+            </div>
+
+            <div class="form-group">
+                <label>Nominal Gaji (Rp)</label>
+                <div style="position: relative;">
+                    <span style="position: absolute; left: 15px; top: 12px; color: #94a3b8; font-weight: 600;">Rp</span>
+                    <input type="number" name="nominal" class="form-control" style="padding-left: 45px;" placeholder="Contoh: 1000000">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">
+                <span>💾</span> Simpan Data Gaji
+            </button>
+
+            <a href="{{ route('gaji.index') }}" class="btn-cancel">Kembali ke Daftar Gaji</a>
+        </form>
+    </div>
+</div>
+</x-app-layout>
