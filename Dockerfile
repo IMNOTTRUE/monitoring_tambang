@@ -1,6 +1,5 @@
 FROM php:8.3-cli
 
-# Install dependencies + ZIP + GD
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -11,9 +10,8 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd zip
+    && docker-php-ext-install gd zip pdo pdo_mysql
 
-# Install composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
