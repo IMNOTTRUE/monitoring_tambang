@@ -80,6 +80,10 @@ Route::get('/notif-data', function () {
     Route::resource('operasional', PembayaranOperasionalController::class);
     Route::resource('gaji', PembayaranGajiController::class);
     Route::post('/gaji', [PembayaranGajiController::class, 'store'])->name('gaji.store');
+    Route::get('/migrate', function () {
+    \Artisan::call('migrate --force');
+    return 'MIGRATE DONE';
+});
 
 });
 
