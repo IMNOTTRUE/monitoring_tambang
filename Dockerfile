@@ -21,3 +21,7 @@ COPY . .
 RUN composer install --no-interaction --optimize-autoloader
 
 CMD php artisan serve --host=0.0.0.0 --port=8000
+RUN php artisan config:clear \
+ && php artisan cache:clear \
+ && php artisan migrate --force \
+ && php artisan storage:link
