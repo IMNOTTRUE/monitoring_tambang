@@ -13,10 +13,12 @@ use App\Models\PembayaranGaji;
 use App\Exports\DashboardExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+  
     /**
      * Register any application services.
      */
@@ -34,10 +36,11 @@ class AppServiceProvider extends ServiceProvider
 
         $notifs = Notifikasi::latest()->take(10)->get();
         $unread = Notifikasi::where('dibaca', false)->count();
-
+         URL::forceScheme('https');
         $view->with('notifs', $notifs);
         $view->with('unread', $unread);
 
     });
     }
+    
 }
