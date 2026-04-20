@@ -15,12 +15,10 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
-# install node
+# 🔥 TAMBAHAN INI
 RUN apt-get update && apt-get install -y nodejs npm
-
-# build vite
-RUN npm install && npm run build
-COPY . .
+RUN npm install
+RUN npm run build
 
 RUN composer install --no-interaction --optimize-autoloader
 
