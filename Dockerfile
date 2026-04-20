@@ -15,7 +15,11 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
+# install node
+RUN apt-get update && apt-get install -y nodejs npm
 
+# build vite
+RUN npm install && npm run build
 COPY . .
 
 RUN composer install --no-interaction --optimize-autoloader
