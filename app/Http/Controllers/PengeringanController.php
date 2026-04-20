@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 use App\Events\NotifEvent;
-use App\Models\pengeringan;
+use App\Models\Pengeringan;
 use App\Models\Notifikasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class pengeringanController extends Controller
+class PengeringanController extends Controller
 {
     public function index()
     {
-        $pengeringan = pengeringan::latest()->get();
+        $pengeringan = Pengeringan::latest()->get();
         return view('pengeringan.index', compact('pengeringan'));
     }
 
@@ -58,13 +58,13 @@ event(new NotifEvent(
 
     public function edit($id)
     {
-        $pengeringan = pengeringan::findOrFail($id);
+        $pengeringan = Pengeringan::findOrFail($id);
         return view('pengeringan.edit', compact('pengeringan'));
     }
 
     public function update(Request $request, $id)
     {
-        $pengeringan = pengeringan::findOrFail($id);
+        $pengeringan = Pengeringan::findOrFail($id);
 
         $request->validate([
             'tanggal' => 'required|date',
@@ -101,7 +101,7 @@ event(new NotifEvent(
 
     public function destroy($id)
     {
-        $pengeringan = pengeringan::findOrFail($id);
+        $pengeringan = Pengeringan::findOrFail($id);
         Storage::disk('public')->delete($pengeringan->dokumentasi);
         $pengeringan->delete();
 
