@@ -147,7 +147,12 @@
         }
 
         .box {
-            padding: 16px; /* Kurangi padding dalam box */
+        background: #ffffff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        border: 1px solid #e5e7eb;
+        overflow-x: auto; /* Agar tabel bisa di-scroll ke samping jika layar kecil */
         }
 
         .data-table th, 

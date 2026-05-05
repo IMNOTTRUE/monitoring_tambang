@@ -131,6 +131,14 @@
         opacity: 0.9;
         color: white;
     }
+    @media (max-width: 640px) {
+    .page-wrapper {
+        padding: 12px; /* Mengurangi padding di layar HP */
+    }
+    .page-title {
+        font-size: 18px; /* Mengecilkan judul sedikit */
+    }
+}
 </style>
 
 <div class="page-wrapper">
