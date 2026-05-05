@@ -53,6 +53,8 @@
         padding: 20px;
         box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         border: 1px solid #e5e7eb;
+        overflow-x: auto;
+        
     }
 
     /* TABLE STYLING */
@@ -60,6 +62,7 @@
         width: 100%;
         border-collapse: collapse;
         font-size: 14px;
+        min-width: 600px; /* Opsional: Memaksa tabel punya lebar minimum agar tidak gepeng */
     }
 
     .data-table th {
