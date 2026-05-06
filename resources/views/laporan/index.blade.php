@@ -1,6 +1,6 @@
 <x-app-layout>
 <style>
-    /* RESET & BASE */
+    /* BASE STYLING */
     .page-wrapper {
         padding: 30px;
         background-color: #f8f9fa;
@@ -32,7 +32,7 @@
         font-size: 14px;
     }
 
-    /* SUMMARY CARD - Dibuat lebih modern */
+    /* SUMMARY CARD */
     .summary-card {
         background: linear-gradient(135deg, #065f46 0%, #047857 100%);
         color: white;
@@ -47,7 +47,6 @@
         overflow: hidden;
     }
 
-    /* Hiasan background kartu */
     .summary-card::after {
         content: "Rp";
         position: absolute;
@@ -134,64 +133,40 @@
         cursor: pointer;
     }
 
-    .btn-print { background: #0f172a; color: white; }
-    .btn-print:hover { background: #334155; }
+    .btn-print { background: #0f172a; color: white; border: none; }
+    .btn-back { background: white; color: #374151; border: 1px solid #d1d5db; }
 
-    .btn-back { background: white; color: #374151; border-color: #d1d5db; }
-    .btn-back:hover { background: #f3f4f6; }
-
-    /* MOBILE OPTIMIZATION */
+    /* MOBILE & PRINT */
     @media (max-width: 640px) {
         .page-wrapper { padding: 15px; }
         .summary-card { flex-direction: column; align-items: flex-start; gap: 15px; }
-        .report-header { flex-direction: column; align-items: flex-start; }
-        .report-header div { width: 100%; display: flex; justify-content: space-between; }
     }
 
-    /* PRINT OPTIMIZATION */
     @media print {
-        @page { size: A4; margin: 2cm; }
-        body { background: white; }
+        .btn-action, .btn-back { display: none !important; }
         .page-wrapper { padding: 0; background: white; }
-        .btn-action, .report-header .btn-back { display: none !important; }
-        .summary-card { 
-            background: white !important; 
-            color: black !important; 
-            border: 2px solid #000; 
-            box-shadow: none;
-            padding: 20px;
-        }
+        .summary-card { background: white !important; color: black !important; border: 2px solid #000; box-shadow: none; }
         .summary-card::after { display: none; }
-        .summary-value { color: black !important; font-size: 28px; }
-        .box { border: none; box-shadow: none; }
-        .report-table th { background: #eee !important; border-bottom: 2px solid #000; }
-        .report-table td { border-bottom: 1px solid #ddd; }
+        .show-on-print { display: block !important; }
     }
 </style>
 
 <div class="page-wrapper">
-    
     <div class="report-header">
         <div class="report-title">
             <h2>Laporan Pendapatan</h2>
             <p>PT. Kapuas Prima Niaga — Rekapitulasi Pembayaran Terverifikasi</p>
         </div>
         <div style="display: flex; gap: 10px;">
-            <button onclick="window.print()" class="btn-action btn-print">
-                <span>🖨️</span> Cetak Laporan
-            </button>
-            <a href="{{ route('dashboard') }}" class="btn-action btn-back">
-                <span>←</span> Dashboard
-            </a>
+            <button onclick="window.print()" class="btn-action btn-print">🖨️ Cetak Laporan</button>
+            <a href="{{ route('dashboard') }}" class="btn-action btn-back">← Dashboard</a>
         </div>
     </div>
 
     <div class="summary-card">
         <div>
             <span class="summary-label">Total Akumulasi Pendapatan</span>
-            <div class="summary-value">
-                Rp {{ number_format($total, 0, ',', '.') }}
-            </div>
+            <div class="summary-value">Rp {{ number_format($total, 0, ',', '.') }}</div>
         </div>
         <div style="text-align: right; opacity: 0.9;">
             <div style="font-size: 14px; font-weight: 600;">Status Laporan:</div>
@@ -217,28 +192,15 @@
                     @forelse($data as $item)
                     <tr>
                         <td><span style="color: #94a3b8; font-weight: 600;">{{ $loop->iteration }}</span></td>
-                        <td style="white-space: nowrap; font-weight: 500;">
-                            {{ \Carbon\Carbon::parse($item->tanggal_bayar)->translatedFormat('d F Y') }}
-                        </td>
-                        <td>
-                            <div style="font-weight: 700; color: #111827;">
-                                {{ $item->serahTerima->keterangan ?? 'Tanpa Keterangan' }}
-                            </div>
-                        </td>
-                        <td>
-                            <code style="background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 12px; color: #475569;">
-                                PAY-{{ $item->id }}
-                            </code>
-                        </td>
-                        <td class="nominal-cell">
-                            Rp {{ number_format($item->nominal, 0, ',', '.') }}
-                        </td>
+                        <td style="white-space: nowrap;">{{ \Carbon\Carbon::parse($item->tanggal_bayar)->format('d F Y') }}</td>
+                        <td><strong style="color: #111827;">{{ $item->serahTerima->keterangan ?? 'Tanpa Keterangan' }}</strong></td>
+                        <td><code style="font-size: 12px;">PAY-{{ $item->id }}</code></td>
+                        <td class="nominal-cell">Rp {{ number_format($item->nominal, 0, ',', '.') }}</td>
                     </tr>
                     @empty
                     <tr>
                         <td colspan="5" style="text-align: center; padding: 60px; color: #94a3b8;">
-                            <div style="font-size: 40px; margin-bottom: 10px;">📉</div>
-                            Tidak ada data transaksi ditemukan untuk periode ini.
+                            Tidak ada data transaksi ditemukan.
                         </td>
                     </tr>
                     @endforelse
@@ -247,8 +209,18 @@
         </div>
     </div>
 
-    <div style="margin-top: 50px; display: none;" class="show-on-print">
-        <table style="width: 100%; border: none;">
+    <div class="show-on-print" style="display: none; margin-top: 50px;">
+        <table style="width: 100%;">
             <tr>
                 <td style="width: 70%;"></td>
-                <td style
+                <td style="text-align: center;">
+                    <p>Dicetak pada: {{ date('d/m/Y H:i') }}</p>
+                    <br><br><br>
+                    <p><strong>( ____________________ )</strong></p>
+                    <p>Admin Keuangan</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</x-app-layout>
